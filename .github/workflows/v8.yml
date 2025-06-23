@@ -33,32 +33,40 @@ jobs:
     # init ubuntu1804 environment
     - name: init env
       run: |
+        echo "Starting init env...\n"
         sudo apt-get update
         sudo apt-get -y install pkg-config git subversion curl wget build-essential python xz-utils zip p7zip-full
+        echo "Init env success; \n"
     
     # get depot_tools
     - name: depot_tools
       run: |
+        echo "Install depot_tools\n"
         git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
         echo export PATH=\"\$PATH:`pwd`/depot_tools/\" >> ~/.bash_profile
+        echo "Install success; \n"
     
     # fetch v8 source code
     - name: fetch v8
       run: |
+        echo "fetch v8 source form google source site ...\n"
         source ~/.bash_profile
         fetch v8
         cd v8
+        echo "fetch v8 source success!\n"
     
     # patch source code
     - name: patch v8
       if: env.PATCH_FLAG == 'true' && !cancelled()
       run: |
+        echo "patch v8"
         cd v8
         git reset --hard $COMMIT
         cd ..
         
     - name: build v8
       run: |
+        echo "build v8"
         source ~/.bash_profile
         gclient sync -f
     
@@ -66,11 +74,13 @@ jobs:
     - name: zip depot_tools
       if: env.DEPOT_UPLOAD == 'true' && !cancelled()
       run: |
+        echo "packaging depot_tools to zip file"
         zip -q -r depot_tools.zip depot_tools
         
     # 7zip v8 src
     - name: 7zip v8_src
       run: |
+        echo "packaging v8 source to zip file"
         zip -q -r v8.zip v8
         7z a v8.7z ./v8.zip -v2048m
     
@@ -78,6 +88,7 @@ jobs:
     - name: upload depot_tools
       if: env.DEPOT_UPLOAD == 'true' && !cancelled()
       run: |
+        echo "upload depot_tools file"
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress depot_tools.zip 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
@@ -86,6 +97,7 @@ jobs:
     - name: upload v8_src
       if: env.SRC_UPLOAD == 'true' && !cancelled()
       run: |
+        echo "upload v8 source file"
         curl -fsSL git.io/file-transfer | sh
         ./transfer cow --block 2621440 -s -p 64 --no-progress v8.7z.001 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
