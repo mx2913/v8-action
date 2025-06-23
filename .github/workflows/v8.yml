@@ -13,9 +13,9 @@ on:
   #   types: started
 
 env:
-  PATCH_FLAG: false
-  COMMIT: 0
-  DEPOT_UPLOAD: false
+  PATCH_FLAG: true
+  COMMIT: 8ab91836885699b9ef686c3a30df4778501ef7d1
+  DEPOT_UPLOAD: true
   SRC_UPLOAD: true
   BINARY_UPLOAD: false
 
