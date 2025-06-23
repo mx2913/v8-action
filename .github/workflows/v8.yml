@@ -90,7 +90,7 @@ jobs:
       run: |
         echo "upload depot_tools file"
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress depot_tools.zip 2>&1 | tee cowtransfer.log
+        ./transfer fic --block 2621440 -s -p 64 depot_tools.zip 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
    
     # upload v8.zip to cowtransfer
@@ -99,7 +99,9 @@ jobs:
       run: |
         echo "upload v8 source file"
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress v8.7z.001 2>&1 | tee cowtransfer.log
+        ./transfer fic --block 2621440 -s -p 64 v8.7z.001 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-        ./transfer cow --block 2621440 -s -p 64 --no-progress v8.7z.002 2>&1 | tee cowtransfer.log
+        ./transfer fic --block 2621440 -s -p 64 v8.7z.002 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        ./transfer fic --block 2621440 -s -p 64 v8.7z.003 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
