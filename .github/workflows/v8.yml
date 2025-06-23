@@ -35,7 +35,7 @@ jobs:
       run: |
         echo "Starting init env...\n"
         sudo apt-get update
-        sudo apt-get -y install pkg-config git subversion curl wget build-essential python xz-utils zip p7zip-full
+        sudo apt-get -y install pkg-config git subversion curl wget build-essential python xz-utils zip p7zip-full python
         echo "Init env success; \n"
     
     # get depot_tools
